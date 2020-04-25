@@ -150,7 +150,7 @@ func (forwarder *Forwarder) Run(ctx context.Context) {
 			defer wg.Done()
 			defer func() {
 				if err := a.Close(); err != nil && err != context.Canceled {
-					log.Warnf("Stopped: appender %v: ", a.Name(), err)
+					log.Warnf("Stopped: appender %v: %v", a.Name(), err)
 
 				} else {
 					log.Debugf("Stopped: appender %v", a.Name())

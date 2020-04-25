@@ -4,34 +4,31 @@ import (
 	"context"
 	"fc/load"
 	log "github.com/sirupsen/logrus"
-	"os"
-	"runtime"
-	"runtime/pprof"
 	"testing"
 )
 
-func TestInputAlloc(t *testing.T) {
+func TestInput(t *testing.T) {
 
-	defer func() {
-		log.Info("Writing memory profile")
-		f, err := os.Create("/tmp/input_test.alloc.hprof")
-		if err != nil {
-			log.Fatal("Could not create memory profile: ", err)
-		}
-		defer func() {
-			if err := f.Close(); err != nil {
-				log.Error("Could not write memory profile: ", err)
-			}
-		}()
-		runtime.GC()
-		if err := pprof.WriteHeapProfile(f); err != nil {
-			log.Fatal("Could not write memory profile: ", err)
-		}
-	}()
+	//defer func() {
+	//	log.Info("Writing memory profile")
+	//	f, err := os.Create("/tmp/input_test.alloc.hprof")
+	//	if err != nil {
+	//		log.Fatal("Could not create memory profile: ", err)
+	//	}
+	//	defer func() {
+	//		if err := f.Close(); err != nil {
+	//			log.Error("Could not write memory profile: ", err)
+	//		}
+	//	}()
+	//	runtime.GC()
+	//	if err := pprof.WriteHeapProfile(f); err != nil {
+	//		log.Fatal("Could not write memory profile: ", err)
+	//	}
+	//}()
 
 	ctx, _ := context.WithCancel(context.Background())
 
-	input, _ := NewForwardInput(":24224", func(bytes []byte) error {
+	input, _ := NewForwardInput("tcp://0.0.0.0:24224", func(bytes []byte) error {
 		_ = bytes
 		//msg := FluentMsg{}
 		//msg.UnmarshalMsg(bytes)
@@ -43,7 +40,7 @@ func TestInputAlloc(t *testing.T) {
 		input.Run(ctx)
 	}()
 
-	load.NewLoadGen("192.168.0.169:24224", 4).Run(ctx, 1024*1024)
+	load.NewLoadGen("127.0.0.1:24224", 4).Run(ctx, 1024)
 
 	log.Info("Done1")
 

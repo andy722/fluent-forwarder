@@ -138,7 +138,7 @@ func (wal *Wal) segments(order int) ([]SegmentId, error) {
 		sort.Slice(files, sortDesc)
 	}
 
-	rc := make([]SegmentId, 1)
+	rc := make([]SegmentId, 0)
 	for _, f := range files {
 		if !f.Mode().IsRegular() {
 			continue

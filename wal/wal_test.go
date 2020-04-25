@@ -4,33 +4,25 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"sync"
 	"testing"
 )
 
 func TestWAL(t *testing.T) {
-	//main.initLogging()
-
 	path, err := ioutil.TempDir("/tmp", "waltest")
 	t.Log(path)
 	if !assert.NoError(t, err) {
 		return
 	}
-	//defer os.RemoveAll(path)
+	defer os.RemoveAll(path)
 
-	//wal, err := NewWal(path)
-	wal, err := NewWal("/tmp/buffer")
+	wal, err := NewWal(path)
 	if !assert.NoError(t, err) {
 		return
 	}
 	defer wal.Close()
-
-	r, err := wal.NewReader("reader", Offset{})
-	if !assert.NoError(t, err) {
-		return
-	}
-	defer r.Close()
 
 	ctx := context.TODO()
 
@@ -49,7 +41,15 @@ func TestWAL(t *testing.T) {
 		}
 	}()
 
+
 	wg.Add(1)
+
+	r, err := wal.NewReader("reader", Offset{})
+	if !assert.NoError(t, err) {
+		return
+	}
+	defer r.Close()
+
 	go func() {
 		defer wg.Done()
 		for i := 1; i <= 1024; i++ {
