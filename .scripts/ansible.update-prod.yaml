@@ -1,0 +1,17 @@
+---
+
+- hosts: swarm_dtln
+  become: yes
+  tasks:
+    - name: copy latest distr
+      copy:
+        src: ../.build/fluent-forwarder-linux-amd64
+        dest: /usr/bin
+        backup: yes
+        mode: 0755
+      notify: restart service
+  handlers:
+    - name: restart service
+      service:
+        name: fluentd-forwarder
+        state: restarted
