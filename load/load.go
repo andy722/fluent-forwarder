@@ -69,7 +69,7 @@ func (loadGen *LoadGen) runLoad(wg *sync.WaitGroup, ctx context.Context, total i
 		go func() {
 			defer wg.Done()
 
-			tcpAddr, err := net.ResolveTCPAddr("tcp", target)
+			tcpAddr, err := net.ResolveTCPAddr("tcp", loadGen.target)
 			if err != nil {
 				log.Panicf("Invalid address %v: %v", target, err)
 			}
