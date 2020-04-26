@@ -116,7 +116,7 @@ func (target *tagTarget) open() (err error) {
 	if target.currentFileWriter != nil {
 		target.currentFileWriter.Reset(target.currentFile)
 	} else {
-		target.currentFileWriter = bufio.NewWriterSize(target.currentFile, 4 * 1024)
+		target.currentFileWriter = bufio.NewWriterSize(target.currentFile, 4*1024)
 	}
 
 	return err

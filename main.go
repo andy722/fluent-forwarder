@@ -51,7 +51,7 @@ func main() {
 	initLogging(logLevel)
 
 	if httpBindAddress != "" {
-		go startHttp(httpBindAddress)
+		go startHTTP(httpBindAddress)
 	}
 
 	log.Infof("Starting forwarder: %+v", forwarderOptions)
@@ -87,7 +87,7 @@ func initLogging(loglevel string) {
 	})
 }
 
-func startHttp(bindAddress string) {
+func startHTTP(bindAddress string) {
 	http.Handle("/metrics", metrics.Handler)
 
 	log.Info("Serving metrics at ", bindAddress)

@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// SplitAddress breaks `PROTO://ADDR` down to protocol and address strings
 func SplitAddress(addr string) (network string, address string, err error) {
 	parts := strings.Split(addr, "://")
 	if len(parts) != 2 {

@@ -50,7 +50,7 @@ func (appender *FileAppender) Run(ctx context.Context) {
 		default:
 		}
 
-		err := appender.runLoop(ctx, func (msg *protocol.FluentMsg) (err error) {
+		err := appender.runLoop(ctx, func(msg *protocol.FluentMsg) (err error) {
 			if err = appender.tryWrite(ctx, msg); err != nil {
 				appender.log().Warn("Entry write failed, will retry: ", err)
 			}

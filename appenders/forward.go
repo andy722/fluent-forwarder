@@ -46,7 +46,7 @@ func (appender *ForwardAppender) Run(ctx context.Context) {
 		default:
 		}
 
-		err := appender.runLoopRaw(ctx, func (msg []byte) (err error) {
+		err := appender.runLoopRaw(ctx, func(msg []byte) (err error) {
 			if err = appender.tryWriteRaw(msg); err != nil {
 				appender.log().Warn("Entry write failed, will retry: ", err)
 			}
@@ -77,13 +77,13 @@ func (appender *ForwardAppender) reconnect() (err error) {
 
 	_ = appender.closeConnection()
 
-	appender.conn, err = net.DialTimeout("tcp", appender.target, 30 * time.Second)
+	appender.conn, err = net.DialTimeout("tcp", appender.target, 30*time.Second)
 
 	if appender.writer != nil {
 		err = appender.writer.Flush()
 		appender.writer.Reset(appender.conn)
 	} else {
-		appender.writer = bufio.NewWriterSize(appender.conn, 16 * 1024)
+		appender.writer = bufio.NewWriterSize(appender.conn, 16*1024)
 	}
 
 	return err

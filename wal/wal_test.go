@@ -31,7 +31,7 @@ func TestWAL(t *testing.T) {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for i := 1; i <= 1024; i++ {
+		for i := 1; i <= 128; i++ {
 			val := "abc-" + strconv.Itoa(i)
 			err := wal.WriteBytes([]byte(val))
 			if !assert.NoError(t, err) {
@@ -40,7 +40,6 @@ func TestWAL(t *testing.T) {
 			//time.Sleep(100)
 		}
 	}()
-
 
 	wg.Add(1)
 
@@ -52,7 +51,7 @@ func TestWAL(t *testing.T) {
 
 	go func() {
 		defer wg.Done()
-		for i := 1; i <= 1024; i++ {
+		for i := 1; i <= 128; i++ {
 			_, err := r.Read(ctx)
 			if !assert.NoError(t, err) {
 				return

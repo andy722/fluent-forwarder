@@ -10,10 +10,10 @@ import (
 )
 
 type Reader struct {
-	Tag    string
+	Tag string
 
 	segmentPtr
-	wal    *Wal
+	wal *Wal
 
 	// Temporary buffers
 	header []byte
@@ -31,7 +31,7 @@ func (wal *Wal) NewReader(tag string, offset Offset) (r *Reader, err error) {
 		Tag: tag,
 
 		header: make([]byte, 4),
-		body: make([]byte, 1024),
+		body:   make([]byte, 1024),
 	}
 
 	if log.IsLevelEnabled(log.TraceLevel) {
@@ -194,7 +194,7 @@ func (r *Reader) open() error {
 		r.reader.Reset(r.currentFile)
 
 	} else {
-		r.reader = bufio.NewReaderSize(r.currentFile, 16 * 1024)
+		r.reader = bufio.NewReaderSize(r.currentFile, 16*1024)
 	}
 
 	if r.offset.Position > 0 {

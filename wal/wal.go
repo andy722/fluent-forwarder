@@ -117,13 +117,13 @@ func (wal *Wal) nextSegment() error {
 	return wal.openFile(os.O_CREATE | os.O_APPEND | os.O_WRONLY)
 }
 
-func (wal *Wal) isAdvancedAfter(segmentId SegmentId) bool {
+func (wal *Wal) isAdvancedAfter(segmentID SegmentID) bool {
 	wal.RLock()
 	defer wal.RUnlock()
-	return wal.offset.Segment > segmentId
+	return wal.offset.Segment > segmentID
 }
 
-func (wal *Wal) segments(order int) ([]SegmentId, error) {
+func (wal *Wal) segments(order int) ([]SegmentID, error) {
 	files, err := ioutil.ReadDir(wal.path)
 	if err != nil {
 		return nil, err
@@ -138,7 +138,7 @@ func (wal *Wal) segments(order int) ([]SegmentId, error) {
 		sort.Slice(files, sortDesc)
 	}
 
-	rc := make([]SegmentId, 0)
+	rc := make([]SegmentID, 0)
 	for _, f := range files {
 		if !f.Mode().IsRegular() {
 			continue
@@ -148,7 +148,7 @@ func (wal *Wal) segments(order int) ([]SegmentId, error) {
 			continue
 		}
 
-		if id := NewSegmentIdFromFile(f.Name()); id != 0 {
+		if id := NewSegmentIDFromFile(f.Name()); id != 0 {
 			rc = append(rc, id)
 		}
 	}

@@ -14,7 +14,7 @@ import (
 )
 
 //
-// WAL segment sequence.
+// SegmentID is a WAL segment sequence.
 //
 // Denotes a single file-based segment of a write-ahead log. File name pattern:
 //	wal-<version><ID>.bin
@@ -23,13 +23,13 @@ import (
 // <version> is a single digit WAL version ID stored for backwards compatibility
 // <ID> is a 16-digit creation timestamp, up to microseconds
 //
-type SegmentId int64
+type SegmentID int64
 
-func NewSegmentId() SegmentId {
-	return SegmentId(time.Now().UnixNano() / 1000)
+func NewSegmentID() SegmentID {
+	return SegmentID(time.Now().UnixNano() / 1000)
 }
 
-func NewSegmentIdFromFile(filename string) SegmentId {
+func NewSegmentIDFromFile(filename string) SegmentID {
 	_, filePart := filepath.Split(filename)
 	filePart = strings.ReplaceAll(filePart, "wal-", "")
 	filePart = strings.ReplaceAll(filePart, ".bin", "")
@@ -39,19 +39,22 @@ func NewSegmentIdFromFile(filename string) SegmentId {
 		log.Errorf("Invalid segment name: %v: %v", filename, err)
 		return 0
 	}
-	return SegmentId(seq)
+	return SegmentID(seq)
 }
 
+// FileName of WAL buffer which this segment references.
 //noinspection GoReceiverNames
-func (segmentId SegmentId) FileName() string {
+func (segmentId SegmentID) FileName() string {
 	return fmt.Sprintf("wal-0%016d.bin", segmentId)
 }
 
 //
 // WAL offset.
 //
+//msgp:decode ignore Offset
+//msgp:encode ignore Offset
 type Offset struct {
-	Segment  SegmentId
+	Segment  SegmentID
 	Position int64
 }
 
@@ -76,7 +79,7 @@ func (offset Offset) String() string {
 
 //noinspection GoReceiverNames
 func (offset *Offset) nextSegment() {
-	offset.Segment = NewSegmentId()
+	offset.Segment = NewSegmentID()
 	offset.Position = 0
 }
 
@@ -117,7 +120,7 @@ func (ptr *segmentPtr) fullName() string {
 	return ptr.resolve(ptr.offset.Segment)
 }
 
-func (ptr *segmentPtr) resolve(id SegmentId) string {
+func (ptr *segmentPtr) resolve(id SegmentID) string {
 	return filepath.Join(ptr.path, id.FileName())
 }
 
@@ -126,6 +129,8 @@ func (ptr *segmentPtr) resolve(id SegmentId) string {
 //
 
 //go:generate msgp -tests=false
+//msgp:marshal ignore MetaContent
+//msgp:unmarshal ignore MetaContent
 type MetaContent struct {
 	Readers map[string]Offset `msg:"Readers"`
 }
@@ -213,7 +218,7 @@ func (walMeta *Meta) Write(content *MetaContent) error {
 	return nil
 }
 
-func (walMeta *Meta) GetOffset(readerId string) (Offset, error) {
+func (walMeta *Meta) GetOffset(readerID string) (Offset, error) {
 	if stored, err := walMeta.Read(); err != nil {
 		return ZeroOffset, err
 
@@ -221,7 +226,7 @@ func (walMeta *Meta) GetOffset(readerId string) (Offset, error) {
 		return ZeroOffset, nil
 
 	} else {
-		return stored.Readers[readerId], nil
+		return stored.Readers[readerID], nil
 	}
 }
 

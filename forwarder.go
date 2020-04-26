@@ -13,9 +13,9 @@ import (
 )
 
 type ForwarderOptions struct {
-	InputFwd    string
+	InputFwd string
 
-	WalPath     string
+	WalPath string
 
 	LogPath     string
 	ForwardAddr string
@@ -27,7 +27,7 @@ type Forwarder struct {
 	wal  *wal.Wal
 	meta *wal.Meta
 
-	inputs []inputs.Input
+	inputs    []inputs.Input
 	appenders []appenders.Appender
 }
 
@@ -101,27 +101,27 @@ func (forwarder *Forwarder) initAppender(
 		return err
 	}
 
-	if appender, err := creator(reader); err != nil {
+	appender, err := creator(reader)
+	if err != nil {
 		return err
-
-	} else {
-		forwarder.appenders = append(forwarder.appenders, appender)
-		log.Infof("Initialized appender %v", appender.Name())
-		return nil
 	}
+
+	forwarder.appenders = append(forwarder.appenders, appender)
+	log.Infof("Initialized appender %v", appender.Name())
+	return nil
 }
 
 func (forwarder *Forwarder) initInput(
 	creator func() (inputs.Input, error)) error {
 
-	if input, err := creator(); err != nil {
+	input, err := creator()
+	if err != nil {
 		return err
-
-	} else {
-		forwarder.inputs = append(forwarder.inputs, input)
-		log.Infof("Initialized input %v", input.Name())
-		return nil
 	}
+
+	forwarder.inputs = append(forwarder.inputs, input)
+	log.Infof("Initialized input %v", input.Name())
+	return nil
 }
 
 func (forwarder *Forwarder) Run(ctx context.Context) {

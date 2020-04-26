@@ -24,18 +24,18 @@ func getBytesToSend() (dst []byte) {
 }
 
 type LoadGen struct {
-	target string
+	target  string
 	threads int
 }
 
 func NewLoadGen(target string, threads int) *LoadGen {
 	return &LoadGen{
-		target: target,
+		target:  target,
 		threads: threads,
 	}
 }
 
-func (loadGen *LoadGen) Run(ctx context.Context,total int) {
+func (loadGen *LoadGen) Run(ctx context.Context, total int) {
 	//ctx, cancel := context.WithCancel(context.Background())
 
 	//c := make(chan os.Signal, 1)
@@ -50,18 +50,18 @@ func (loadGen *LoadGen) Run(ctx context.Context,total int) {
 	//	select {
 	//	case <-c:
 	//		cancel()
-		//case <-ctx.Done():
-		//}
+	//case <-ctx.Done():
+	//}
 	//}()
 
 	wg := sync.WaitGroup{}
 
-	loadGen.runLoad(&wg, ctx, total)
+	loadGen.runLoad(ctx, &wg, total)
 
 	wg.Wait()
 }
 
-func (loadGen *LoadGen) runLoad(wg *sync.WaitGroup, ctx context.Context, total int) {
+func (loadGen *LoadGen) runLoad(ctx context.Context, wg *sync.WaitGroup, total int) {
 	dst := getBytesToSend()
 
 	for i := 0; i < loadGen.threads; i++ {
@@ -85,7 +85,7 @@ func (loadGen *LoadGen) runLoad(wg *sync.WaitGroup, ctx context.Context, total i
 				}
 			}()
 
-			for i:=0; i<total; i++ {
+			for i := 0; i < total; i++ {
 				select {
 				case <-ctx.Done():
 					return

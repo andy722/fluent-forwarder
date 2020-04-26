@@ -2,6 +2,7 @@ package protocol
 
 import "github.com/tinylib/msgp/msgp"
 
+// ReadRaw transforms raw message pack bytes to string
 func ReadRaw(rawMsg msgp.Raw) string {
 	raw := rawMsg
 
@@ -19,4 +20,3 @@ func ReadRaw(rawMsg msgp.Raw) string {
 
 	return msgp.UnsafeString(raw)
 }
-

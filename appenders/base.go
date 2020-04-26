@@ -21,9 +21,9 @@ type baseAppender struct {
 
 func newBaseAppender(reader *wal.Reader) *baseAppender {
 	return &baseAppender{
-		reader: reader,
-		labels: prometheus.Labels{"target": reader.Tag},
-		flushedOffset:reader.Offset(),
+		reader:        reader,
+		labels:        prometheus.Labels{"target": reader.Tag},
+		flushedOffset: reader.Offset(),
 	}
 }
 
@@ -100,4 +100,3 @@ func (appender *baseAppender) Name() string {
 func (appender *baseAppender) FlushedOffset() wal.Offset {
 	return appender.flushedOffset
 }
-

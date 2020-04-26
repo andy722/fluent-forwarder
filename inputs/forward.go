@@ -18,7 +18,7 @@ type ForwardInput struct {
 	network  string
 	listener net.Listener
 
-	handler  func([]byte) error
+	handler func([]byte) error
 }
 
 type ForwardHandler func([]byte) error
@@ -97,7 +97,7 @@ func (input *ForwardInput) Run(ctx context.Context) {
 
 			handlers.Add(1)
 			go func() {
-				if err := input.handleConnection(conn, ctx); err != nil {
+				if err := input.handleConnection(ctx, conn); err != nil {
 					log.Warningf("Connection error: %v", err)
 				}
 				handlers.Done()
@@ -107,11 +107,11 @@ func (input *ForwardInput) Run(ctx context.Context) {
 
 }
 
-func (input *ForwardInput) handleConnection(conn net.Conn, ctx context.Context) (err error) {
+func (input *ForwardInput) handleConnection(ctx context.Context, conn net.Conn) (err error) {
 	var (
 		_log = log.WithField("remote", conn.RemoteAddr())
 
-		reader  = msgp.NewReaderSize(conn, 16 * 1024)
+		reader  = msgp.NewReaderSize(conn, 16*1024)
 		msgpEOF = msgp.WrapError(io.EOF)
 
 		readMsg  = protocol.FluentRawMsg{}

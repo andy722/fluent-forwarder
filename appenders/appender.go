@@ -5,6 +5,7 @@ import (
 	"github.com/andy722/fluent-forwarder/wal"
 )
 
+// Appender reads log entries from WAL and forwards to a specified destination.
 type Appender interface {
 	Run(ctx context.Context)
 	Name() string
