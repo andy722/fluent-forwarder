@@ -78,7 +78,7 @@ func (wal *Wal) WriteBytes(bytes []byte) (err error) {
 }
 
 func (wal *Wal) DropBefore(o *Offset) error {
-	if log.IsLevelEnabled(log.DebugLevel) {
+	if log.IsLevelEnabled(log.TraceLevel) {
 		wal.log().Trace("Dropping segments before ", o)
 	}
 

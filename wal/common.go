@@ -48,8 +48,7 @@ func (segmentId SegmentID) FileName() string {
 	return fmt.Sprintf("wal-0%016d.bin", segmentId)
 }
 
-//
-// WAL offset.
+// Offset denotes a position in WAL.
 //
 //msgp:decode ignore Offset
 //msgp:encode ignore Offset
