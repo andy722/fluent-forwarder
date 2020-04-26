@@ -22,13 +22,15 @@ type tagTarget struct {
 
 	rotationCheckTimer *time.Ticker
 	flushTicker        *time.Ticker
+
+	formatter FileFormatter
 }
 
 func newTagTarget(ctx context.Context, currentPath string) (target *tagTarget, err error) {
-
 	target = &tagTarget{
 		rotationCheckTimer: time.NewTicker(1 * time.Minute),
 		flushTicker:        time.NewTicker(1 * time.Second),
+		formatter:          SimpleFileFormatter,
 	}
 
 	if err = target.ResetPath(currentPath); err != nil {
@@ -60,32 +62,11 @@ func (target *tagTarget) Write(tag string, msg *protocol.FluentMsg) (err error) 
 
 	writer := target.currentFileWriter
 
-	if len(msg.Record.ContainerName) > 0 {
-		tag = protocol.ReadRaw(msg.Record.ContainerName)
-	}
-
-	_, err = writer.WriteString(tag)
-	if err != nil {
+	if err = target.formatter(tag, msg, writer); err != nil {
 		return
 	}
 
-	_, err = writer.WriteString("\t")
-	if err != nil {
-		return
-	}
-
-	_, err = writer.WriteString(protocol.ReadRaw(msg.Record.Log))
-	if err != nil {
-		return
-	}
-
-	_, err = writer.WriteString("\n")
-	if err != nil {
-		return
-	}
-
-	err = writer.Flush()
-	if err != nil {
+	if err = writer.Flush(); err != nil {
 		return
 	}
 
@@ -123,7 +104,6 @@ func (target *tagTarget) open() (err error) {
 }
 
 func (target *tagTarget) Close() (err error) {
-
 	if target.currentFile != nil {
 		if err = target.currentFileWriter.Flush(); err != nil {
 			return
