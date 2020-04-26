@@ -11,18 +11,22 @@ import (
 )
 
 func TestWAL(t *testing.T) {
-	path, err := ioutil.TempDir("/tmp", "waltest")
+	path, err := ioutil.TempDir("/tmp", "wal-test")
 	t.Log(path)
 	if !assert.NoError(t, err) {
 		return
 	}
-	defer os.RemoveAll(path)
+	defer func() {
+		assert.NoError(t, os.RemoveAll(path))
+	}()
 
 	wal, err := NewWal(path)
 	if !assert.NoError(t, err) {
 		return
 	}
-	defer wal.Close()
+	defer func() {
+		assert.NoError(t, wal.Close())
+	}()
 
 	ctx := context.TODO()
 
@@ -47,7 +51,9 @@ func TestWAL(t *testing.T) {
 	if !assert.NoError(t, err) {
 		return
 	}
-	defer r.Close()
+	defer func() {
+		assert.NoError(t, r.Close())
+	}()
 
 	go func() {
 		defer wg.Done()

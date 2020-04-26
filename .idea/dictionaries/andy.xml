@@ -1,7 +1,13 @@
 <component name="ProjectDictionaryState">
   <dictionary name="andy">
     <words>
+      <w>appenders</w>
+      <w>fixstr</w>
+      <w>fluentd</w>
+      <w>ldflags</w>
       <w>msgp</w>
+      <w>pprof</w>
+      <w>tracef</w>
     </words>
   </dictionary>
 </component>

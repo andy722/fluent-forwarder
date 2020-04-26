@@ -40,7 +40,7 @@ func TestInput(t *testing.T) {
 		input.Run(ctx)
 	}()
 
-	load.NewLoadGen("127.0.0.1:24224", 4).Run(ctx, 1024)
+	load.NewFluentSender("127.0.0.1:24224", 4).Run(ctx, 1024)
 
 	log.Info("Done1")
 
