@@ -16,7 +16,7 @@ build: ## Build application
       -v $(CURDIR)/$(BUILD_DIR)/.pkg:/go/pkg \
       -w /usr/src/app \
       fc-builder \
-      sh -c "env GOOS=$(OS) GOARCH=$(ARCH) go build -v -ldflags='-s -w' -i -o $(TARGET)"
+      sh -c "env GOOS=$(OS) GOARCH=$(ARCH) CGO_ENABLED=0 go build -v -ldflags='-s -w' -i -o $(TARGET)"
 
 builder: ## Create image used for application building
 	cd .scripts && docker build -t fc-builder .
