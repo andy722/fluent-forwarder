@@ -1,6 +1,7 @@
 # Fluentd forwarder
 
 [![Build Status](https://travis-ci.org/andy722/fluent-forwarder.svg?branch=master)](https://travis-ci.org/andy722/fluent-forwarder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/andy722/fluent-forwarder)](https://goreportcard.com/report/github.com/andy722/fluent-forwarder)
 
 Simple implementation of log forwarder, optimized for low overhead.
 
