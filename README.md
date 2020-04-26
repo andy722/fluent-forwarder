@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/andy722/fluent-forwarder.svg?branch=master)](https://travis-ci.org/andy722/fluent-forwarder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/andy722/fluent-forwarder)](https://goreportcard.com/report/github.com/andy722/fluent-forwarder)
+[![GitHub license](https://img.shields.io/github/license/andy722/fluent-forwarder.svg)](https://github.com/andy722/fluent-forwarder/blob/master/LICENSE)
 
 Simple implementation of log forwarder, optimized for low overhead.
 
@@ -25,8 +26,8 @@ over TCP or UNIX socket
           
 ### Examples
 
-Accept logs over UNIX socket, forward to central fluentd collector and local storage, expose metrics
-on `:24225`:
+Accept logs over UNIX socket, forward both to a central fluentd collector and a local storage, 
+expose metrics on `:24225`:
  
     ./fluent-forrwarder \
         --input-fwd=unix:///var/run/fluent/fluent.sock \
