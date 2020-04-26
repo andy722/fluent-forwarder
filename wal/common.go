@@ -1,8 +1,8 @@
 package wal
 
 import (
-	"fc/util"
 	"fmt"
+	"github.com/andy722/fluent-forwarder/util"
 	log "github.com/sirupsen/logrus"
 	"github.com/tinylib/msgp/msgp"
 	"os"

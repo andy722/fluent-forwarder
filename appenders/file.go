@@ -2,9 +2,9 @@ package appenders
 
 import (
 	"context"
-	"fc/protocol"
-	. "fc/util"
-	"fc/wal"
+	"github.com/andy722/fluent-forwarder/protocol"
+	"github.com/andy722/fluent-forwarder/util"
+	"github.com/andy722/fluent-forwarder/wal"
 	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"strings"
@@ -24,7 +24,7 @@ type FileAppender struct {
 }
 
 func NewFileAppender(reader *wal.Reader, path string) (appender *FileAppender, err error) {
-	if err := EnsureDirExists(path); err != nil {
+	if err := util.EnsureDirExists(path); err != nil {
 		return nil, err
 	}
 

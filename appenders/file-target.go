@@ -3,8 +3,8 @@ package appenders
 import (
 	"bufio"
 	"context"
-	"fc/protocol"
-	. "fc/util"
+	"github.com/andy722/fluent-forwarder/protocol"
+	"github.com/andy722/fluent-forwarder/util"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
@@ -106,7 +106,7 @@ func (target *tagTarget) open() (err error) {
 	}
 
 	dir, _ := filepath.Split(target.currentPath)
-	if err := EnsureDirExists(dir); err != nil {
+	if err := util.EnsureDirExists(dir); err != nil {
 		return err
 	}
 

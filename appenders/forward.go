@@ -3,9 +3,9 @@ package appenders
 import (
 	"bufio"
 	"context"
-	. "fc/util"
-	"fc/wal"
 	"fmt"
+	"github.com/andy722/fluent-forwarder/util"
+	"github.com/andy722/fluent-forwarder/wal"
 	log "github.com/sirupsen/logrus"
 	"net"
 	"time"
@@ -21,7 +21,7 @@ type ForwardAppender struct {
 }
 
 func NewForwardAppender(reader *wal.Reader, target string) (appender *ForwardAppender, err error) {
-	network, address, err := SplitAddress(target)
+	network, address, err := util.SplitAddress(target)
 	if err != nil {
 		return nil, err
 	} else if network != "tcp" {

@@ -2,10 +2,10 @@ package appenders
 
 import (
 	"context"
-	"fc/metrics"
-	"fc/protocol"
-	"fc/wal"
 	"fmt"
+	"github.com/andy722/fluent-forwarder/metrics"
+	"github.com/andy722/fluent-forwarder/protocol"
+	"github.com/andy722/fluent-forwarder/wal"
 	"github.com/prometheus/client_golang/prometheus"
 	"time"
 )

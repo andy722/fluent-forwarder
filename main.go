@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fc/metrics"
+	"github.com/andy722/fluent-forwarder/metrics"
 	log "github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 	"net/http"

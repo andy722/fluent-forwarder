@@ -2,9 +2,9 @@ package inputs
 
 import (
 	"context"
-	"fc/protocol"
-	. "fc/util"
 	"fmt"
+	"github.com/andy722/fluent-forwarder/protocol"
+	"github.com/andy722/fluent-forwarder/util"
 	log "github.com/sirupsen/logrus"
 	"github.com/tinylib/msgp/msgp"
 	"io"
@@ -25,7 +25,7 @@ type ForwardHandler func([]byte) error
 
 func NewForwardInput(ListenOn string, handler ForwardHandler) (*ForwardInput, error) {
 
-	network, address, err := SplitAddress(ListenOn)
+	network, address, err := util.SplitAddress(ListenOn)
 	if err != nil {
 		return nil, err
 	}

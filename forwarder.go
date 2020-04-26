@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"fc/appenders"
-	"fc/inputs"
-	"fc/wal"
 	"fmt"
+	"github.com/andy722/fluent-forwarder/appenders"
+	"github.com/andy722/fluent-forwarder/inputs"
+	"github.com/andy722/fluent-forwarder/wal"
 	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"sync"

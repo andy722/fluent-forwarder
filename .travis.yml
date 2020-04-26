@@ -1,6 +1,31 @@
 language: go
 
+os:
+  - linux
+
 go:
   - 1.14.x
 
-script: go test -v ./...
+cache:
+  directories:
+    - "$HOME/.cache/go-build"
+    - "$GOPATH/pkg/mod"
+
+install: true
+
+script:
+  - go test -v ./...
+
+before_deploy:
+  - mkdir -p .build
+  - "GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-s -w' -o .build/fluent-forwarder-$TRAVIS_TAG-linux-amd64"
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: CI3BSl5cBAAv/tqPncCwNWAzrU2G6C4tLEpXDyBmPb+qLrr8blGl+CP8yuKtig4X7dCdiIx9SBec/D/A8QKCADuiI1xeOcKIa0XO6bnk2SI9vJ+tcTbr8RYCDiBFbbUxyMY7C6odb1OciCHM/7tyDBC1DDBRvMhTuG/eWKQ5U34T3mwBNDjZ//qnbSGqC3sIYpqh+e7TRJ8JaMa2O3QAOW2SQ4MjBvF7wVnaYds16roU42S181n90YV0rCSH/MfNPEVXjTYZLyKLXXZDjZENNwgKvmr8GrbR88NO02bmsgyoGqSsZwTIeuuroYuzRJz5EzdAzNnVtwPW1FECR60Xc24b7zzqXe1G/ZlDZVOiW9fLiOqOswDAWLCf8T5kAljke5otho5B0ZEH4qbpy+wPb0JHmgJu0rTRBcBVPlVspjHstppL8TGIGRqLRfmHGbne7JXtgn29JNo+sxd51C9J3sFEjqJ39+10oJCqw56G6zEBVFNsi8bxvZ5b3Ba8PD4bWeqXou/HCpaAe7nc3Ky674T3XRdfd8WhL+fh380tmT6KDAGpHm4GdHKSx9sQc7aj+p4cf9umtYoOrKYIeqYibUSRjyQd8n7U4FUXn1qnGmWK1A85JSiEioipLVAn7p8CMOerEYDA53ekaGT+rwPr/QOHJM5E2FeMJHBjL/yGbgM=
+  file: ".build/fluent-forwarder-$TRAVIS_TAG-linux-amd64"
+  on:
+    repo: andy722/fluent-forwarder
+    tags: true

@@ -2,7 +2,7 @@ package inputs
 
 import (
 	"context"
-	"fc/load"
+	"github.com/andy722/fluent-forwarder/load"
 	log "github.com/sirupsen/logrus"
 	"testing"
 )

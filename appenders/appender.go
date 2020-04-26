@@ -2,7 +2,7 @@ package appenders
 
 import (
 	"context"
-	"fc/wal"
+	"github.com/andy722/fluent-forwarder/wal"
 )
 
 type Appender interface {

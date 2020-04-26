@@ -53,12 +53,12 @@ func TestWAL(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		for i := 1; i <= 1024; i++ {
-			data, err := r.Read(ctx)
+			_, err := r.Read(ctx)
 			if !assert.NoError(t, err) {
 				return
 			}
 
-			t.Log(string(data))
+			//t.Log(string(data))
 		}
 	}()
 

@@ -2,9 +2,9 @@ package wal
 
 import (
 	"encoding/binary"
-	"fc/metrics"
-	"fc/util"
 	"github.com/alecthomas/units"
+	"github.com/andy722/fluent-forwarder/metrics"
+	"github.com/andy722/fluent-forwarder/util"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
