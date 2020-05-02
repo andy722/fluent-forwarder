@@ -13,7 +13,6 @@ build: ## Build application
 	docker run \
       --rm \
       -v $(CURDIR):/usr/src/app \
-      -v $(CURDIR)/$(BUILD_DIR)/.pkg:/go/pkg \
       -w /usr/src/app \
       fc-builder \
       sh -c "env GOOS=$(OS) GOARCH=$(ARCH) CGO_ENABLED=0 go build -v -ldflags='-s -w' -i -o $(TARGET)"
